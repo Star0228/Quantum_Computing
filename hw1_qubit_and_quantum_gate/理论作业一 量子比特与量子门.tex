@@ -1,0 +1,348 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,enumitem,algorithm,algpseudocode}
+\usepackage[UTF8]{ctex}
+\usepackage[braket]{qcircuit}
+\parindent=22pt
+\parskip=3pt
+\oddsidemargin 18pt \evensidemargin 0pt
+\leftmargin 1.5in
+\marginparwidth 1in \marginparsep 0pt \headsep 0pt \topskip 20pt
+\textheight 225mm \textwidth 148mm
+\renewcommand{\baselinestretch}{1.15}
+\begin{document}
+\title{{\bf 理论作业一 \quad 量子比特与量子门}}
+\author{王晓宇 \quad 3220104364}
+\date{\today}
+\maketitle
+
+\begin{tabular*}{13cm}{r}
+\hline
+\end{tabular*}
+
+\vskip 0.3 in
+
+{\bf 1.} 已知双量子比特系统的量子态如下 $|\psi\rangle = \begin{bmatrix} \frac{1}{2} & x & 3x & \frac{i}{2\sqrt{2}} \end{bmatrix} ^ \intercal \in \mathbb{C}^4$ ，求该系统处于 $|01\rangle$ 态的概率。
+
+由归一化条件可知:
+$$\left | \frac{1}{2} \right |^2 + \left | x \right |^2 + \left | 3x \right |^2 + \left | \frac{i}{2\sqrt{2}}  \right |^2 = 1$$
+$$\therefore \left| x \right|^2 = 1/16$$
+$$ p = \alpha_{01}^2 = \left| x \right|^2 = \frac{1}{16}$$
+
+\vskip 0.3 in
+
+{\bf 2.} 已知单量子比特的态矢量为 $|\psi\rangle = \begin{bmatrix} 3/5 \\ 4/5 \end{bmatrix}$ ，求该量子比特的Bloch球坐标。
+
+$$|\psi\rangle = \alpha_{0}|0\rangle + \alpha_{1}|1\rangle = cos\left(\frac{\theta}{2}\right)|0\rangle + e^{i\phi}sin\left(\frac{\theta}{2}\right)|1\rangle$$
+$$\therefore cos\left(\frac{\theta}{2}\right) = \frac{3}{5}$$
+$$\therefore \theta = \pm 2arccos(\frac{3}{5})$$
+\[ \because 0 \le \theta \le \pi \] 
+\[ \therefore \theta =  2arccos(\frac{3}{5})  \]
+
+\[ \because sin\left( \frac{\theta}{2}\right) >0 \ and \ \alpha_{1} \ is \ a \ real \]
+$$\therefore \phi = 0 $$
+
+因此,Bloch球坐标为:
+\[ (\theta, \phi) = \left(2 \arccos\left(\frac{3}{5}\right), 0\right) \]
+
+
+\vskip 0.3 in
+
+{\bf 3.} Bell 态指双量子比特系统的四个特殊量子态，他们是双量子比特系统中纠缠度最高的量子态，因此也称为最大纠缠态，在量子隐形传态、量子算法中有着广泛的应用。一般而言，Bell 态定义如下：
+\begin{align}
+    |\beta_{xy}\rangle = \frac{|0y\rangle + (-1)^x|1\bar{y}\rangle}{\sqrt{2}}, \quad x,y \in \{0,1\}, \quad \bar{y} = 1-y
+\end{align}
+\begin{enumerate}[label=\alph*.]
+\item 证明 Bell 态是纠缠态。
+
+When $x = 0 \& y = 0$:
+\[  |\beta_{xy}\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}\]
+假设这个双量子比特系统可以分解成两个单量子比特的张量积：
+\[
+|\beta_{xy}\rangle =
+ \begin{bmatrix}
+a \\
+b
+\end{bmatrix}
+\otimes 
+\begin{bmatrix}
+c \\
+d
+\end{bmatrix}
+= 
+\begin{bmatrix}
+ac \\
+ad \\
+bc \\
+bd
+\end{bmatrix}
+= 
+\begin{bmatrix}
+\frac{1}{\sqrt{2}} \\
+0 \\
+0 \\
+\frac{1}{\sqrt{2}}
+\end{bmatrix}
+\]
+$\because ad = 0 \& bc = 0$ 
+
+说明a和c必有一个为零，b和d必有一个为零，那么ac和bd必为0，与得到的Bell态不符，所以Bell态不可分。
+
+同理可证以下三个Bell态也是纠缠态。
+
+When $x = 0 \& y = 1$:
+\[  |\beta_{xy}\rangle = \frac{|01\rangle + |10\rangle}{\sqrt{2}}\]
+
+When $x = 1 \& y = 0$:
+\[  |\beta_{xy}\rangle = \frac{|00\rangle - |11\rangle}{\sqrt{2}}\]
+
+When $x = 1 \& y = 1$:
+\[  |\beta_{xy}\rangle = \frac{|01\rangle - |10\rangle}{\sqrt{2}}\]
+
+\item 用 H、X、Z 和 CNOT 门设计四个量子电路，使得初态为 $|00\rangle$ 的双量子比特系统经这些量子电路作用后分别演化为四个 Bell 态。
+
+When $x = 0 \& y = 0$:
+\[  |\beta_{xy}\rangle = \frac{|00\rangle + |11\rangle}{\sqrt{2}}\]
+\[ \Qcircuit @C=1.0em @R=1.5em {
+\lstick{q_0} & \gate{H} & \ctrl{1} & \qw \\
+\lstick{q_1} & \qw & \targ & \qw 
+} \]
+
+
+When $x = 0 \& y = 1$:
+
+\[  |\beta_{xy}\rangle = \frac{|01\rangle + |10\rangle}{\sqrt{2}}\]
+\[ \Qcircuit @C=1.0em @R=1.5em {
+\lstick{q_0} & \gate{H} & \ctrl{1}  & \qw \\
+\lstick{q_1} & \gate{X} & \targ  & \qw 
+} \]
+
+When $x = 1 \& y = 0$:
+\[  |\beta_{xy}\rangle = \frac{|00\rangle - |11\rangle}{\sqrt{2}}\]
+\[ \Qcircuit @C=1.0em @R=1.5em {
+    \lstick{q_0} & \gate{X} & \gate{H} & \ctrl{1} & \qw \\
+    \lstick{q_1} & \qw      & \qw & \targ & \qw 
+} \]
+
+When $x = 1 \& y = 1$:
+\[  |\beta_{xy}\rangle = \frac{|01\rangle - |10\rangle}{\sqrt{2}}\]
+\[ \Qcircuit @C=1.0em @R=1.5em {
+\lstick{q_0} & \gate{X} & \gate{H} & \ctrl{1}  & \qw \\
+\lstick{q_1} & \gate{X}  & \qw     & \targ  & \qw 
+} \]
+
+\end{enumerate}
+
+\vskip 0.3 in
+
+{\bf 4.} 证明下图中的两个量子电路等价。（提示：计算两个量子电路对应的酉矩阵）
+
+\[ \Qcircuit @C=1.0em @R=2.0em {
+\lstick{q_0} & \targ & \qw \\
+\lstick{q_1} & \ctrl{-1} & \qw
+} \]
+
+\[ \Qcircuit @C=1.0em @R=1.5em {
+\lstick{q_0} & \gate{H} & \ctrl{1} & \gate{H} & \qw \\
+\lstick{q_1} & \gate{H} & \targ & \gate{H} & \qw 
+} \]
+
+Answer:
+For the first circuit:
+$$
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0 \\
+0 & 1 & 0 & 0
+\end{bmatrix}
+$$
+For the second circuit:
+$$
+(H \otimes H)CNOT(H \otimes H) = 
+$$
+$$
+\left(\frac{1}{\sqrt{2}}      
+\begin{bmatrix}
+1 & 1\\
+1 & -1 
+\end{bmatrix}
+\otimes
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1 & 1\\
+1 & -1
+\end{bmatrix}
+\right)
+\cdot
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0
+\end{bmatrix}
+\cdot
+\left(
+\frac{1}{\sqrt{2}}      
+\begin{bmatrix}
+1 & 1\\
+1 & -1 
+\end{bmatrix}
+\otimes
+\frac{1}{\sqrt{2}}
+\begin{bmatrix}
+1 & 1\\
+1 & -1
+\end{bmatrix}
+\right)
+=
+$$
+$$
+\frac{1}{4}
+\begin{bmatrix}
+1 & 1 & 1 & 1 \\
+1 & -1 & 1 & -1 \\
+1 & 1 & -1 & -1 \\
+1 & -1 & -1 & 1
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    1 & 1 & 1 & 1 \\
+    1 & -1 & 1 & -1 \\
+    1 & 1 & -1 & -1 \\
+    1 & -1 & -1 & 1
+\end{bmatrix} = 
+$$
+$$
+\begin{bmatrix}
+    1 & 0 & 0 & 0 \\
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 0
+    \end{bmatrix}
+$$
+Since of the two matrices are equal, the two circuits are equivalent.
+
+\vskip 0.3 in
+
+{\bf 5.} 证明厄米算符 $A$ 的任一本征值均为实数，且不同本征值对应的本征态正交。
+
+\begin{enumerate}[label=\alph*.]
+\item 先证明厄米算符 $A$ 的任一本征值均为实数:
+
+假设$A$是厄米算符，即
+\begin{align}
+    A = A^{\dagger}    
+\end{align}
+我们任取$A$的本征值$\lambda$，有
+\begin{align}
+    A|\phi\rangle = \lambda|\phi \rangle    
+\end{align}
+取共轭转置我们有
+\[\langle \phi | A^{\dagger}  = \lambda^{*}\langle \phi | \]
+由（2）式我们有
+\[\langle \phi | A  = \lambda^{*}\langle \phi | \]
+同时右乘$|\phi \rangle$得到
+\begin{align}
+    \langle \phi | A|\phi \rangle=\lambda^{*}\langle \phi |\phi \rangle    
+\end{align}
+由（3）式我们代换（4）式中的$A|\phi \rangle$得到
+\[ \lambda \langle \phi |\phi \rangle=\lambda^{*}\langle \phi |\phi \rangle \]   
+由于$\langle \phi |\phi \rangle \neq 0$
+\[\therefore \lambda = \lambda^{*}\]
+说明本征值为实数
+
+\item 我们接着证明不同本征值对应的本征态正交：
+
+任取$A$的两个本征值$\lambda_1$和$\lambda_2$，对应的本征态分别为$|\phi_1\rangle$和$|\phi_2\rangle$，有
+\begin{align}
+    A|\phi_1\rangle = \lambda_1|\phi_1 \rangle
+\end{align}
+\begin{align}
+    A|\phi_2\rangle = \lambda_2|\phi_2 \rangle
+\end{align}
+取（5）式，左乘$\langle \phi_2|$，（6）式左乘$\langle \phi_1|$得到：
+\begin{align}
+    \langle \phi_2 | A|\phi_1 \rangle = \lambda_1\langle \phi_2 |\phi_1 \rangle
+\end{align}
+\begin{align}
+    \langle \phi_1 | A|\phi_2 \rangle = \lambda_2\langle \phi_1 |\phi_2 \rangle
+\end{align}
+（7）式取共轭转置得到：
+\begin{align}
+    \langle \phi_1 | A|\phi_2 \rangle = \langle \phi_1 | A^{\dagger}|\phi_2 \rangle = \lambda_1^{*}\langle \phi_1 |\phi_2\rangle = \lambda_1\langle \phi_1 |\phi_2\rangle
+\end{align}
+由（8）和（9）式我们有：
+\[\lambda_1\langle \phi_2 |\phi_1 \rangle = \lambda_2\langle \phi_1 |\phi_2 \rangle\]
+即：
+\[ \left(\lambda_1-\lambda_2\right)\langle \phi_1 |\phi_2 \rangle = 0\]
+\[\because \lambda_1 \neq \lambda_2\]
+\[\therefore \langle \phi_1 |\phi_2 \rangle  = 0\]
+即不同本征值对应的本征态正交。
+\end{enumerate}
+\vskip 0.3 in
+
+{\bf 6.} Deutsch 算法展示了量子计算机强大的并行计算能力。Deutsch-Jozsa 算法是其推广形式，将可分类的函数推广至多比特情形。
+
+已知函数 $f:\{0,1\}^n \rightarrow \{0,1\}$，该函数是常数函数（对所有输入均输出 $0$ ，或对所有输入均输出 $1$）或平衡函数(对恰好一半的输入输出 $0$ ，对另一半输入输出 $1$)。Deutsch-Jozsa 算法只需对实现函数 $f$ 的结构进行一次查询，即可判断 $f$ 是常数函数还是平衡函数。
+
+下图是实现 Deutsch-Jozsa 算法的量子线路。其中，$U_f:|x,y\rangle \to |x,y\oplus f(x)\rangle$ 是实现函数 $f$ 的 $n+1$ 比特的量子门。
+
+\[ \Qcircuit @C=1.0em @R=.7em {
+\lstick{\ket{0}} & {/^n} \qw & \gate{H^{\otimes n}} & \multigate{1} {U_f} & \gate{H^{\otimes n}} & \meter & \qw \\
+\lstick{\ket{1}} & \qw & \gate{H} & \ghost{U_f} & \qw & \qw & \qw \\
+} \]
+
+
+推导该量子电路中量子态的演化过程，并说明如何基于测量结果判断 $f$ 是常数函数还是平衡函数。（提示：计算 $f$ 为常数函数或平衡函数时的测量结果）
+
+
+先标注量子电路时间:
+\[ \Qcircuit @C=1.0em @R=.7em {
+\lstick{\ket{0}} & {/^n} \qw & \gate{H^{\otimes n}} & \multigate{1} {U_f} & \gate{H^{\otimes n}} & \meter & \qw \\
+\lstick{\ket{1}} & \qw & \gate{H} & \ghost{U_f} & \qw & \qw & \qw \\}
+\]
+\[
+    \uparrow  \qquad \uparrow   \qquad \quad \uparrow  \quad \qquad \uparrow  \qquad
+\]
+\[
+    \varphi_1  \qquad \varphi_2   \qquad \quad \varphi_3  \qquad \varphi_4  \qquad
+\]
+
+假设$f$ 为常数函数时的测量结果：
+\begin{enumerate}
+    \item $\varphi_1$时刻
+    我们引入了$n+1$位bit的量子电路，其中除最低位外，均为$|0\rangle$态，我们这里暂叫这n位量子比特为$x_{\varphi_1}^{\otimes n}$
+    \item $\varphi_2$时刻
+    \[ |x^{\otimes n}\rangle \stackrel{{H^{\otimes n}}}\longrightarrow \left(\frac{1}{\sqrt{2}}\left(|0\rangle + |1\rangle \right)\right)^{\otimes n} \]
+    \[\therefore |x_{\varphi_2}^{\otimes n}\rangle =\left(\frac{1}{\sqrt{2}}\left(|0\rangle + |1\rangle \right)\right)^{\otimes n}\]
+    \[|y\rangle = \frac{1}{\sqrt{2}}\left(|0\rangle - |1\rangle \right) \]
+    \item $\varphi_3$时刻，在完成$U_f$的函数处理后：
+    \[|x_{\varphi_3}^{\otimes n}y\rangle =  |x_{\varphi_2}^{\otimes n}\rangle | \left(y \oplus f\left(x_{\varphi_2}^{\otimes n}\right)\right)\rangle \\
+    = \left(-1\right)^{f\left(x_{\varphi_2}^{\otimes n}\right)}|x_{\varphi_2}^{\otimes n} y\rangle 
+    \]
+    $\because \ f$为常数函数,分类讨论可以得到:
+    \begin{enumerate}
+        \item $f(x) = 0$
+           \[ |x_{\varphi_3}^{\otimes n}y\rangle = |x_{\varphi_2}^{\otimes n}y\rangle = \left(\frac{1}{\sqrt{2}}\left(|0\rangle + |1\rangle \right)\right)^{\otimes n} \left(\frac{1}{\sqrt{2}}\left(|0\rangle - |1\rangle \right)\right)\]
+        \item $f(x) = 1$
+           \[ |x_{\varphi_3}^{\otimes n}y\rangle = - |x_{\varphi_2}^{\otimes n}y\rangle = - \left(\frac{1}{\sqrt{2}}\left(|0\rangle + |1\rangle \right)\right)^{\otimes n} \left(\frac{1}{\sqrt{2}}\left(|0\rangle - |1\rangle \right)\right)\]
+    \end{enumerate}
+    
+    \[\therefore |x_{\varphi_3}^{\otimes n}y\rangle = \pm \left(\frac{1}{\sqrt{2}}\left(|0\rangle + |1\rangle \right)\right)^{\otimes n} \left(\frac{1}{\sqrt{2}}\left(|0\rangle - |1\rangle \right)\right)\]
+    
+    \item $\varphi_4$时刻，我们先不看系数以及$|y\rangle$
+        \[ \left(\frac{1}{\sqrt{2}}\left(|0\rangle + |1\rangle \right)\right)^{\otimes n} \stackrel{{H^{\otimes n}}}\longrightarrow  |0\rangle^{\otimes n} \]
+        \[\therefore  |x_{\varphi_4}^{\otimes n}y\rangle = |0\rangle^{\otimes n} \]
+        \[\therefore |x_{\varphi_4}^{\otimes n}y\rangle = \pm |0\rangle^{\otimes n} \left(\frac{1}{\sqrt{2}}\left(|0\rangle - |1\rangle \right)\right)\]
+\end{enumerate}
+所以我们可以通过测量n位比特是否全为$|0\rangle$来判断$f$是常数函数还是平衡函数，如果全为0，则$f$为常数函数，否则为平衡函数。
+
+\end{document}
+
