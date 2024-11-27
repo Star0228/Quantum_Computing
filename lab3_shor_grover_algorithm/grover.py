@@ -45,7 +45,7 @@ def oracle():
 
 N = 4
 times = 1
-qc = grover(N,oracle,times)
+qc = grover(N,times)
 print(qc.draw())
 print("iteration:",times)
 
