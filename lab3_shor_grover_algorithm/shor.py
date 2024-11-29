@@ -30,15 +30,16 @@ def mod_exp_circuit(a, power, N, n_v):
 def mod_circuit(a, N, n_v):
     matrix = np.zeros((2 ** n_v, 2 ** n_v), dtype=int)
     for i in range(2 ** n_v):
-        matrix[i][(a * i) % N] = 1
-    U, S, V_dagger = np.linalg.svd(matrix)
-    matrix = U 
+        if(i in range(N)):
+            matrix[i][(a * i) % N] = 1
+        else:
+            matrix[i][i] = 1
     return UnitaryGate(matrix)
 
 
 N = 21
 a = 8
-n_p = 1 # number of qubits in period register
+n_p = 3 # number of qubits in period register
 n_v = 5 # number of qubits in value register
 qc = shor_circuit(N, a, n_p, n_v)
 print(qc.draw())
